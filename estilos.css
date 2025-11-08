@@ -28,4 +28,75 @@ h2 {
     margin-bottom: 10px;
 }
 
-.form
+.formulario  {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+input, select, button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+input, select {
+    flex: 1 1 45%;
+}
+
+button {
+    flex: 1 1 100%;
+    background-color: #0074D9;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #005bb5;
+}
+
+.lista-personas {
+    margin-top: 30px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+th {
+    background-color: #0074D9;
+    color: white;
+}
+
+.eliminar {
+    background-color: #e74c3c;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.eliminar:hover {
+    background-color: #c0392b;
+}
+
+.resultado {
+    margin-top: 25px;
+    padding: 15px;
+    background-color: #eaf4ff;
+    border: 5px solid #0074D9;
+    border-radius: 5px;
+}
