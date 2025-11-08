@@ -32,7 +32,7 @@ class Persona {
     public function getGenero() { return $this->genero; }
 
     public function realizarAccion($accion) {
-        return $this->getNombreCompleto() . " está " {$accion} ".";
+        return $this->getNombreCompleto() . " está " . $accion . ".";
     }
 }
 ?>

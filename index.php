@@ -5,7 +5,7 @@ session_start();
 
 //Aca se inicializa la lista de personas en la sesion
 if (!isset($_SESSION['personas'])) {
-    $_SESSION['personas'] = ();
+    $_SESSION['personas'] = [];
 }
 
 // Para registrar una nueva persona
@@ -24,13 +24,13 @@ if (isset($_POST['registrar'])) {
 }
 
 // Para eliminar una persona
-if (isset($_POST['eliminar'])) {
-    $idEliminar = $_GET['idEliminar'];
+if (isset($_GET['eliminar'])) {
+    $idEliminar = $_GET['eliminar'];
     unset($_SESSION['personas'][$idEliminar]);
 }
 
 // Para ejecutar la accion
-$resultado = '';
+$resultado = "";
 if (isset($_POST['accion']) && isset($_POST['persona_id'])) {
     $personaId = $_POST['persona_id'];
     $accion = $_POST['accion'];
@@ -68,10 +68,9 @@ if (isset($_POST['accion']) && isset($_POST['persona_id'])) {
         </select>
         <button type="submit" name="registrar">Registrar Persona</button>
     </form>
-</div>
 
 <?php
-if (!empty($_SESION['personas'])) { ?>
+if (!empty($_SESSION['personas'])) { ?>
     <div class="lista-personas">
         <h2>Personas Registradas</h2>
         <table>
@@ -84,9 +83,9 @@ if (!empty($_SESION['personas'])) { ?>
             </tr>
             <?php foreach ($_SESSION['personas'] as $persona) { ?>
                 <tr>
-                    <td><?php htmlspecialchars($persona->getNombreCompleto()); ?></td>
-                    <td><?php htmlspecialchars($persona->getEdad()); ?></td>
-                    <td><?php htmlspecialchars($persona->getGenero()); ?></td>
+                    <td><?= htmlspecialchars($persona->getNombreCompleto()); ?></td>
+                    <td><?= htmlspecialchars($persona->getEdad()); ?></td>
+                    <td><?= htmlspecialchars($persona->getGenero()); ?></td>
                     <td>
                         <form method="post" class="accion-form">
                             <input type="hidden" name="persona_id" value="<?= $persona->getId(); ?>">
@@ -100,8 +99,8 @@ if (!empty($_SESION['personas'])) { ?>
                             </select>
                             <button type="submit">Ejecutar</button>
                         </form>
+                    <td><a class="eliminar" href="?eliminar=<?= $persona->getId(); ?>">Borrar</a></td>
                 </tr>
-                <td><a class="eliminar" href="?eliminar=<?= $persona->getId(); ?>">Borrar</a></td>
             <?php } ?>
         </table>
     </div>
