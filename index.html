@@ -7,6 +7,21 @@
     <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-    
+    <div class="container">
+    <h2>Sistema de Gestión de Personas</h2>
+    <form method="post" class="form">
+        <input type="text" name="nombre" placeholder="Nombre" required>
+        <input type="text" name="apellido" placeholder="Apellido" required>
+        <input type="date" name="FechaNacimiento" required>
+        <input type="email" name="email" placeholder="Correo electronico" required> 
+        <input type="text" name="telefono" placeholder="Teléfono" required>
+        <select name="genero" required>
+            <option value="" disabled selected>Género</option>
+            <option value="masculino">Masculino</option>
+            <option value="femenino">Femenino</option>
+            <option value="otro">Otro</option>
+        </select>
+        <button type="submit" name="registrar">Registrar Persona</button>
+    </form>
 </body>
 </html>
