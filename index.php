@@ -3,7 +3,7 @@
 require_once 'persona.php';
 session_start();
 
-//Aca se inicializa la lista de personas en la sesion
+// Aca se inicializa la lista de personas en la sesion
 if (!isset($_SESSION['personas'])) {
     $_SESSION['personas'] = [];
 }
