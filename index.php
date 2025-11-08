@@ -54,7 +54,7 @@ if (isset($_POST['accion']) && isset($_POST['persona_id'])) {
 <body>
     <div class="container">
     <h2>Sistema de Gestión de Personas</h2>
-    <form method="post" class="form">
+    <form method="post" class="formulario">
         <input type="text" name="nombre" placeholder="Nombre" required>
         <input type="text" name="apellido" placeholder="Apellido" required>
         <input type="date" name="FechaNacimiento" required>
@@ -115,6 +115,4 @@ if (!empty($_SESION['personas'])) { ?>
 <?php } ?>
 </div>
 </body>
-</html>
-
-
+</html> 

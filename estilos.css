@@ -1,0 +1,31 @@
+body {
+    font-family: 'sageo UI', sans-serif;
+    background: linear-gradient(90deg, #00A7ff  ,#004080);
+    color: #003366;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px;
+    margin: 0;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+    width: 900%;
+}
+
+h1 {
+    text-align: center;
+    color: #004080;
+    margin-bottom: 25px;
+}
+
+h2 {
+    color: #0066cc;
+    margin-bottom: 10px;
+}
+
+.form
