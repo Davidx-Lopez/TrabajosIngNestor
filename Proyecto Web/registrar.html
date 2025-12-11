@@ -3,40 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Registrar Animal</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-<!-- SIDEBAR MENÚ -->
-<div class="sidebar">
-    <button id="menuBtn">☰</button>
-    <ul>
-        <li><a href="dashboard.html">Inicio</a></li>
-        <li><a href="alimentacion.html">Alimentación</a></li>
-        <li><a href="inventario.html">Inventario</a></li>
-        <li><a href="produccion.html">Producción</a></li>
-        <li><a href="reproduccion.html">Reproducción</a></li>
-        <li><a href="vacunaciones.html">Vacunaciones</a></li>
-        <li><a href="ventas.html">Ventas</a></li>
-        <li><a href="registrar.html">Registrar Animal</a></li>
-    </ul>
-</div>
+<h2>Registrar Nuevo Animal</h2>
 
-<!-- CONTENIDO PRINCIPAL -->
-<div class="content">
-    <h2>Registrar Nuevo Animal</h2>
+<form id="formAnimal">
+    <input id="raza" placeholder="Raza" required>
+    <input id="sexo" placeholder="Sexo (Macho / Hembra)" required>
+    <input id="fecha" type="date" required>
+    <input id="peso" placeholder="Peso (kg)">
+    <input id="estado" placeholder="Estado de Salud">
+    <input id="rfid" placeholder="Identificación RFID">
 
-    <form id="animalForm">
-        <input type="text" placeholder="Raza" required>
-        <input type="text" placeholder="Sexo (Macho/Hembra)" required>
-        <input type="date" required>
-        <input type="number" placeholder="Peso (kg)" required>
-        <input type="text" placeholder="Estado de salud">
-        <input type="text" placeholder="Identificación RFID">
-        <button type="submit">Registrar Animal</button>
-    </form>
-</div>
+    <button type="submit">Guardar</button>
+</form>
 
-<script src="js/app.js"></script>
+<h2>Lista de Animales</h2>
+
+<table id="tablaAnimales">
+    <tr>
+        <th>Raza</th>
+        <th>Sexo</th>
+        <th>Fecha</th>
+        <th>Peso</th>
+        <th>Estado</th>
+        <th>RFID</th>
+    </tr>
+</table>
+
+<script src="app.js"></script>
 </body>
 </html>
