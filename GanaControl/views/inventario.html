@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario de Ganado - GanaControl</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="imag/jpeg" href="img/logo.jpeg">
+</head>
+<body class="relative min-h-screen bg-gray-50">
+    
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="img/logo.jpeg" alt="Logo" class="h-12 w-12 rounded-full border-2 border-green-600">
+                <div>
+                    <h1 class="text-2xl font-bold text-green-700">Inventario de Ganado</h1>
+                    <p class="text-xs text-gray-600">Control y Gestión</p>
+                </div>
+            </div>
+            <button onclick="location.href='dashboard.html'" 
+                    class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition shadow-lg">
+                ← Volver
+            </button>
+        </div>
+    </header>
+
+    <!-- Estadísticas -->
+    <div class="container mx-auto px-4 py-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-xl p-5 shadow-lg">
+                <div class="text-3xl font-bold" id="statTotal">0</div>
+                <div class="text-sm opacity-90 mt-1">Total Ganado</div>
+            </div>
+            <div class="bg-gradient-to-br from-green-500 to-green-600 text-white rounded-xl p-5 shadow-lg">
+                <div class="text-3xl font-bold" id="statActivos">0</div>
+                <div class="text-sm opacity-90 mt-1">Activos</div>
+            </div>
+            <div class="bg-gradient-to-br from-pink-500 to-pink-600 text-white rounded-xl p-5 shadow-lg">
+                <div class="text-3xl font-bold" id="statHembras">0</div>
+                <div class="text-sm opacity-90 mt-1">Hembras</div>
+            </div>
+            <div class="bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-xl p-5 shadow-lg">
+                <div class="text-3xl font-bold" id="statMachos">0</div>
+                <div class="text-sm opacity-90 mt-1">Machos</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <main class="container mx-auto px-4 pb-8">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">Listado de Animales</h2>
+            <button onclick="mostrarFormulario()" 
+                    class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition shadow-lg flex items-center gap-2">
+                <span class="text-xl">+</span> Agregar Ganado
+            </button>
+        </div>
+
+        <!-- Búsqueda y Filtros -->
+        <div class="bg-white rounded-xl shadow-lg p-4 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="relative">
+                    <input type="text" id="searchInput" 
+                           placeholder="🔍 Buscar por código o nombre..."
+                           class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                </div>
+                <select id="filtroEstado" 
+                        class="px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500">
+                    <option value="">Todos los estados</option>
+                    <option value="Activo">Activos</option>
+                    <option value="Vendido">Vendidos</option>
+                    <option value="Enfermo">Enfermos</option>
+                </select>
+                <select id="filtroSexo" 
+                        class="px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500">
+                    <option value="">Todos los sexos</option>
+                    <option value="Macho">Machos</option>
+                    <option value="Hembra">Hembras</option>
+                </select>
+                <select id="filtroRaza" 
+                        class="px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500">
+                    <option value="">Todas las razas</option>
+                    <option value="Holstein">Holstein</option>
+                    <option value="Angus">Angus</option>
+                    <option value="Jersey">Jersey</option>
+                    <option value="Brahman">Brahman</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Tabla de Ganado -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="bg-gradient-to-r from-green-600 to-green-700 text-white">
+                        <tr>
+                            <th class="px-4 py-3 text-left font-semibold">Código</th>
+                            <th class="px-4 py-3 text-left font-semibold">Nombre</th>
+                            <th class="px-4 py-3 text-left font-semibold">Raza</th>
+                            <th class="px-4 py-3 text-left font-semibold">Sexo</th>
+                            <th class="px-4 py-3 text-left font-semibold">Edad</th>
+                            <th class="px-4 py-3 text-left font-semibold">Peso (kg)</th>
+                            <th class="px-4 py-3 text-left font-semibold">Estado</th>
+                            <th class="px-4 py-3 text-center font-semibold">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaBody" class="divide-y divide-gray-200">
+                        <!-- Se llena dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Formulario -->
+    <div id="modalForm" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="sticky top-0 bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-4 rounded-t-2xl">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xl font-bold" id="modalTitulo">Agregar Ganado</h3>
+                    <button onclick="cerrarFormulario()" class="text-2xl hover:bg-white/20 rounded-full w-8 h-8">&times;</button>
+                </div>
+            </div>
+            
+            <form id="formGanado" class="p-6 space-y-4">
+                <input type="hidden" id="ganadoId">
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Código *</label>
+                        <input type="text" id="codigo" required 
+                               placeholder="G001"
+                               class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Nombre *</label>
+                        <input type="text" id="nombre" required 
+                               placeholder="Margarita"
+                               class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Raza *</label>
+                        <select id="raza" required 
+                                class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                            <option value="">Seleccione...</option>
+                            <option value="Holstein">Holstein</option>
+                            <option value="Angus">Angus</option>
+                            <option value="Jersey">Jersey</option>
+                            <option value="Brahman">Brahman</option>
+                            <option value="Simmental">Simmental</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Sexo *</label>
+                        <select id="sexo" required 
+                                class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                            <option value="">Seleccione...</option>
+                            <option value="Macho">Macho</option>
+                            <option value="Hembra">Hembra</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Fecha de Nacimiento *</label>
+                        <input type="date" id="fechaNacimiento" required 
+                               class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Peso Actual (kg) *</label>
+                        <input type="number" id="pesoActual" step="0.01" required 
+                               placeholder="450.50"
+                               class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Estado *</label>
+                    <select id="estado" required 
+                            class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                        <option value="Activo">Activo</option>
+                        <option value="Enfermo">Enfermo</option>
+                        <option value="Vendido">Vendido</option>
+                        <option value="Muerto">Muerto</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Ubicación</label>
+                    <input type="text" id="ubicacion" 
+                           placeholder="Lote 1, Corral A"
+                           class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Observaciones</label>
+                    <textarea id="observaciones" rows="3" 
+                              placeholder="Notas adicionales..."
+                              class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 resize-none"></textarea>
+                </div>
+
+                <div class="flex gap-4 pt-4">
+                    <button type="submit" 
+                            class="flex-1 px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-lg hover:from-green-700 hover:to-green-800 transition shadow-lg">
+                        💾 Guardar
+                    </button>
+                    <button type="button" onclick="cerrarFormulario()" 
+                            class="px-6 py-3 bg-gray-500 text-white font-semibold rounded-lg hover:bg-gray-600 transition">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let ganado = JSON.parse(localStorage.getItem('inventario_ganado')) || [];
+
+        // Calcular edad en meses
+        function calcularEdad(fechaNacimiento) {
+            const hoy = new Date();
+            const nacimiento = new Date(fechaNacimiento);
+            const meses = (hoy.getFullYear() - nacimiento.getFullYear()) * 12 + (hoy.getMonth() - nacimiento.getMonth());
+            const años = Math.floor(meses / 12);
+            const mesesRestantes = meses % 12;
+            return años > 0 ? `${años}a ${mesesRestantes}m` : `${meses}m`;
+        }
+
+        // Actualizar estadísticas
+        function actualizarStats() {
+            document.getElementById('statTotal').textContent = ganado.length;
+            document.getElementById('statActivos').textContent = ganado.filter(g => g.estado === 'Activo').length;
+            document.getElementById('statHembras').textContent = ganado.filter(g => g.sexo === 'Hembra').length;
+            document.getElementById('statMachos').textContent = ganado.filter(g => g.sexo === 'Macho').length;
+        }
+
+        // Renderizar tabla
+        function renderTabla() {
+            const tbody = document.getElementById('tablaBody');
+            const busqueda = document.getElementById('searchInput').value.toLowerCase();
+            const filtroEstado = document.getElementById('filtroEstado').value;
+            const filtroSexo = document.getElementById('filtroSexo').value;
+            const filtroRaza = document.getElementById('filtroRaza').value;
+
+            let ganadoFiltrado = ganado.filter(g => {
+                const matchBusqueda = g.codigo.toLowerCase().includes(busqueda) || g.nombre.toLowerCase().includes(busqueda);
+                const matchEstado = !filtroEstado || g.estado === filtroEstado;
+                const matchSexo = !filtroSexo || g.sexo === filtroSexo;
+                const matchRaza = !filtroRaza || g.raza === filtroRaza;
+                return matchBusqueda && matchEstado && matchSexo && matchRaza;
+            });
+
+            tbody.innerHTML = '';
+
+            if (ganadoFiltrado.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="text-center py-8 text-gray-500">No hay registros</td></tr>';
+                return;
+            }
+
+            ganadoFiltrado.forEach(g => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-green-50 transition';
+                
+                const estadoClass = {
+                    'Activo': 'bg-green-100 text-green-800',
+                    'Enfermo': 'bg-yellow-100 text-yellow-800',
+                    'Vendido': 'bg-blue-100 text-blue-800',
+                    'Muerto': 'bg-red-100 text-red-800'
+                }[g.estado] || 'bg-gray-100 text-gray-800';
+
+                tr.innerHTML = `
+                    <td class="px-4 py-3"><span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-md font-bold">${g.codigo}</span></td>
+                    <td class="px-4 py-3 font-semibold">${g.nombre}</td>
+                    <td class="px-4 py-3">${g.raza}</td>
+                    <td class="px-4 py-3">${g.sexo === 'Macho' ? '♂️' : '♀️'} ${g.sexo}</td>
+                    <td class="px-4 py-3">${calcularEdad(g.fechaNacimiento)}</td>
+                    <td class="px-4 py-3 font-semibold text-green-600">${g.pesoActual} kg</td>
+                    <td class="px-4 py-3"><span class="px-2 py-1 rounded-md text-xs font-semibold ${estadoClass}">${g.estado}</span></td>
+                    <td class="px-4 py-3 text-center">
+                        <button onclick="editarGanado(${g.id})" class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition text-xs mr-1">✏️</button>
+                        <button onclick="eliminarGanado(${g.id})" class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition text-xs">🗑️</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Mostrar formulario
+        function mostrarFormulario() {
+            document.getElementById('modalTitulo').textContent = 'Agregar Ganado';
+            document.getElementById('formGanado').reset();
+            document.getElementById('ganadoId').value = '';
+            document.getElementById('modalForm').classList.remove('hidden');
+        }
+
+        // Cerrar formulario
+        function cerrarFormulario() {
+            document.getElementById('modalForm').classList.add('hidden');
+        }
+
+        // Guardar ganado
+        document.getElementById('formGanado').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const id = document.getElementById('ganadoId').value;
+            const datos = {
+                id: id ? parseInt(id) : Date.now(),
+                codigo: document.getElementById('codigo').value,
+                nombre: document.getElementById('nombre').value,
+                raza: document.getElementById('raza').value,
+                sexo: document.getElementById('sexo').value,
+                fechaNacimiento: document.getElementById('fechaNacimiento').value,
+                pesoActual: parseFloat(document.getElementById('pesoActual').value),
+                estado: document.getElementById('estado').value,
+                ubicacion: document.getElementById('ubicacion').value,
+                observaciones: document.getElementById('observaciones').value
+            };
+
+            if (id) {
+                const index = ganado.findIndex(g => g.id === parseInt(id));
+                ganado[index] = datos;
+            } else {
+                ganado.push(datos);
+            }
+
+            localStorage.setItem('inventario_ganado', JSON.stringify(ganado));
+            cerrarFormulario();
+            renderTabla();
+            actualizarStats();
+        });
+
+        // Editar ganado
+        function editarGanado(id) {
+            const g = ganado.find(item => item.id === id);
+            if (!g) return;
+
+            document.getElementById('modalTitulo').textContent = 'Editar Ganado';
+            document.getElementById('ganadoId').value = g.id;
+            document.getElementById('codigo').value = g.codigo;
+            document.getElementById('nombre').value = g.nombre;
+            document.getElementById('raza').value = g.raza;
+            document.getElementById('sexo').value = g.sexo;
+            document.getElementById('fechaNacimiento').value = g.fechaNacimiento;
+            document.getElementById('pesoActual').value = g.pesoActual;
+            document.getElementById('estado').value = g.estado;
+            document.getElementById('ubicacion').value = g.ubicacion || '';
+            document.getElementById('observaciones').value = g.observaciones || '';
+
+            document.getElementById('modalForm').classList.remove('hidden');
+        }
+
+        // Eliminar ganado
+        function eliminarGanado(id) {
+            if (confirm('¿Está seguro de eliminar este registro?')) {
+                ganado = ganado.filter(g => g.id !== id);
+                localStorage.setItem('inventario_ganado', JSON.stringify(ganado));
+                renderTabla();
+                actualizarStats();
+            }
+        }
+
+        // Event listeners para filtros
+        document.getElementById('searchInput').addEventListener('input', renderTabla);
+        document.getElementById('filtroEstado').addEventListener('change', renderTabla);
+        document.getElementById('filtroSexo').addEventListener('change', renderTabla);
+        document.getElementById('filtroRaza').addEventListener('change', renderTabla);
+
+        // Inicializar
+        renderTabla();
+        actualizarStats();
+    </script>
+</body>
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vacunación - GanaControl</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/jpeg" href="img/logo.jpeg">
+</head>
+<body class="relative min-h-screen">
+    
+    <!-- Fondo -->
+    <div class="fixed inset-0 z-[-10]">
+        <img src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=1600" 
+             alt="Fondo" 
+             class="w-full h-full object-cover filter brightness-75">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/70 to-purple-900/70"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white/95 backdrop-blur-sm shadow-lg">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="img/logo.jpeg" alt="Logo" class="h-12 w-12 rounded-full border-2 border-blue-600">
+                <div>
+                    <h1 class="text-2xl font-bold text-blue-700">Control de Vacunación</h1>
+                    <p class="text-xs text-gray-600">Gestión Sanitaria</p>
+                </div>
+            </div>
+            <button onclick="location.href='dashboard.html'" 
+                    class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition shadow-lg">
+                ← Volver
+            </button>
+        </div>
+    </header>
+
+    <!-- Contenido -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Formulario -->
+            <div class="lg:col-span-1">
+                <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6">
+                    <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-blue-200">
+                        <div class="p-3 bg-blue-100 rounded-full">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-800">Registrar Vacuna</h2>
+                    </div>
+                    
+                    <div id="alert" class="hidden mb-4 p-4 bg-blue-100 border border-blue-400 text-blue-700 rounded-lg">
+                        ✓ Vacunación registrada
+                    </div>
+                    
+                    <form id="formVacuna" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Código del Ganado *</label>
+                            <select id="ganadoId" required 
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                                <option value="">Seleccione...</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Tipo de Vacuna *</label>
+                            <select id="tipoVacuna" required 
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                                <option value="">Seleccione...</option>
+                                <option value="Fiebre Aftosa">💉 Fiebre Aftosa</option>
+                                <option value="Brucelosis">💉 Brucelosis</option>
+                                <option value="Rabia">💉 Rabia</option>
+                                <option value="Carbón Sintomático">💉 Carbón Sintomático</option>
+                                <option value="IBR">💉 IBR</option>
+                                <option value="Triple">💉 Triple</option>
+                                <option value="Otra">💉 Otra</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Lote de Vacuna</label>
+                            <input type="text" id="loteVacuna" 
+                                   placeholder="LOTE-2024-001"
+                                   class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Fecha de Aplicación *</label>
+                            <input type="date" id="fechaAplicacion" required 
+                                   class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Dosis</label>
+                                <input type="text" id="dosis" 
+                                       placeholder="5ml"
+                                       class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Próxima Dosis</label>
+                                <input type="date" id="proximaDosis" 
+                                       class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Veterinario</label>
+                            <input type="text" id="veterinario" 
+                                   placeholder="Dr. Juan Pérez"
+                                   class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Costo</label>
+                            <input type="number" id="costo" step="0.01" 
+                                   placeholder="25000"
+                                   class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Observaciones</label>
+                            <textarea id="observaciones" rows="2" 
+                                      placeholder="Notas adicionales..."
+                                      class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 resize-none"></textarea>
+                        </div>
+
+                        <button type="submit" 
+                                class="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-blue-800 transition shadow-lg">
+                            💉 Registrar Vacunación
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tabla -->
+            <div class="lg:col-span-2">
+                <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6">
+                    <div class="flex items-center justify-between mb-6 pb-4 border-b-2 border-blue-200">
+                        <div class="flex items-center gap-3">
+                            <div class="p-3 bg-purple-100 rounded-full">
+                                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                </svg>
+                            </div>
+                            <h2 class="text-xl font-bold text-gray-800">Registro de Vacunaciones</h2>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <input type="text" id="searchInput" 
+                               placeholder="🔍 Buscar por código o vacuna..."
+                               class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                    </div>
+
+                    <div class="overflow-x-auto rounded-lg border-2 border-gray-200 mb-4">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-semibold">Código</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Vacuna</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Fecha Aplic.</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Próx. Dosis</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Veterinario</th>
+                                    <th class="px-4 py-3 text-center font-semibold">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaBody" class="bg-white divide-y divide-gray-200">
+                                <!-- Dinámico -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Próximas Vacunaciones -->
+                    <div class="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4">
+                        <h3 class="font-bold text-yellow-800 mb-3 flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                            </svg>
+                            Próximas Vacunaciones
+                        </h3>
+                        <div id="proximasVacunas" class="space-y-2 text-sm">
+                            <!-- Dinámico -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estadísticas -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-center">
+                <div class="text-3xl font-bold text-blue-600" id="statTotal">0</div>
+                <div class="text-sm text-gray-600 mt-2">Total Vacunas</div>
+            </div>
+            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-center">
+                <div class="text-3xl font-bold text-green-600" id="statMes">0</div>
+                <div class="text-sm text-gray-600 mt-2">Este Mes</div>
+            </div>
+            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-center">
+                <div class="text-3xl font-bold text-yellow-600" id="statPendientes">0</div>
+                <div class="text-sm text-gray-600 mt-2">Pendientes</div>
+            </div>
+            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-center">
+                <div class="text-3xl font-bold text-purple-600" id="statCosto">$0</div>
+                <div class="text-sm text-gray-600 mt-2">Costo Total</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const ganadoData = JSON.parse(localStorage.getItem('inventario_ganado')) || [];
+        
+        const selectGanado = document.getElementById('ganadoId');
+        ganadoData.filter(g => g.estado === 'Activo').forEach(g => {
+            const option = document.createElement('option');
+            option.value = g.id;
+            option.textContent = `${g.codigo} - ${g.nombre}`;
+            selectGanado.appendChild(option);
+        });
+
+        document.getElementById('fechaAplicacion').valueAsDate = new Date();
+
+        let vacunaciones = JSON.parse(localStorage.getItem('vacunaciones_ganado')) || [];
+
+        function actualizarStats() {
+            document.getElementById('statTotal').textContent = vacunaciones.length;
+
+            const mesActual = new Date().getMonth();
+            const añoActual = new Date().getFullYear();
+            const totalMes = vacunaciones.filter(v => {
+                const fecha = new Date(v.fechaAplicacion);
+                return fecha.getMonth() === mesActual && fecha.getFullYear() === añoActual;
+            }).length;
+            document.getElementById('statMes').textContent = totalMes;
+
+            const pendientes = vacunaciones.filter(v => v.proximaDosis && new Date(v.proximaDosis) >= new Date()).length;
+            document.getElementById('statPendientes').textContent = pendientes;
+
+            const costoTotal = vacunaciones.reduce((sum, v) => sum + (parseFloat(v.costo) || 0), 0);
+            document.getElementById('statCosto').textContent = `$${costoTotal.toLocaleString()}`;
+        }
+
+        function renderProximasVacunas() {
+            const div = document.getElementById('proximasVacunas');
+            const proximas = vacunaciones
+                .filter(v => v.proximaDosis && new Date(v.proximaDosis) >= new Date())
+                .sort((a, b) => new Date(a.proximaDosis) - new Date(b.proximaDosis))
+                .slice(0, 5);
+
+            if (proximas.length === 0) {
+                div.innerHTML = '<p class="text-gray-500">No hay vacunaciones pendientes</p>';
+                return;
+            }
+
+            div.innerHTML = proximas.map(v => {
+                const ganado = ganadoData.find(g => g.id == v.ganadoId);
+                const dias = Math.ceil((new Date(v.proximaDosis) - new Date()) / (1000 * 60 * 60 * 24));
+                return `
+                    <div class="flex justify-between items-center p-2 bg-white rounded border border-yellow-200">
+                        <span><strong>${ganado?.codigo}</strong> - ${v.tipoVacuna}</span>
+                        <span class="text-xs ${dias <= 7 ? 'text-red-600 font-bold' : 'text-gray-600'}">${v.proximaDosis} (${dias}d)</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderTabla(filtro = '') {
+            const tbody = document.getElementById('tablaBody');
+            tbody.innerHTML = '';
+
+            const vacunasFiltradas = vacunaciones.filter(v => {
+                const ganado = ganadoData.find(g => g.id == v.ganadoId);
+                return ganado?.codigo.toLowerCase().includes(filtro.toLowerCase()) ||
+                       v.tipoVacuna.toLowerCase().includes(filtro.toLowerCase());
+            });
+
+            if (vacunasFiltradas.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8 text-gray-500">No hay vacunaciones registradas</td></tr>';
+                return;
+            }
+
+            vacunasFiltradas.reverse().forEach(v => {
+                const ganado = ganadoData.find(g => g.id == v.ganadoId);
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-blue-50 transition';
+                tr.innerHTML = `
+                    <td class="px-4 py-3"><span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-md font-bold">${ganado?.codigo || 'N/A'}</span></td>
+                    <td class="px-4 py-3">${v.tipoVacuna}</td>
+                    <td class="px-4 py-3">${v.fechaAplicacion}</td>
+                    <td class="px-4 py-3 ${v.proximaDosis && new Date(v.proximaDosis) <= new Date() ? 'text-red-600 font-bold' : ''}">${v.proximaDosis || '-'}</td>
+                    <td class="px-4 py-3 text-xs">${v.veterinario || '-'}</td>
+                    <td class="px-4 py-3 text-center">
+                        <button onclick="eliminarVacuna(${v.id})" class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition text-xs">🗑️</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        document.getElementById('formVacuna').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const nuevaVacuna = {
+                id: Date.now(),
+                ganadoId: document.getElementById('ganadoId').value,
+                tipoVacuna: document.getElementById('tipoVacuna').value,
+                loteVacuna: document.getElementById('loteVacuna').value,
+                fechaAplicacion: document.getElementById('fechaAplicacion').value,
+                dosis: document.getElementById('dosis').value,
+                proximaDosis: document.getElementById('proximaDosis').value,
+                veterinario: document.getElementById('veterinario').value,
+                costo: document.getElementById('costo').value,
+                observaciones: document.getElementById('observaciones').value
+            };
+
+            vacunaciones.push(nuevaVacuna);
+            localStorage.setItem('vacunaciones_ganado', JSON.stringify(vacunaciones));
+
+            const alert = document.getElementById('alert');
+            alert.classList.remove('hidden');
+            setTimeout(() => alert.classList.add('hidden'), 3000);
+
+            this.reset();
+            document.getElementById('fechaAplicacion').valueAsDate = new Date();
+
+            renderTabla();
+            renderProximasVacunas();
+            actualizarStats();
+        });
+
+        function eliminarVacuna(id) {
+            if (confirm('¿Eliminar esta vacunación?')) {
+                vacunaciones = vacunaciones.filter(v => v.id !== id);
+                localStorage.setItem('vacunaciones_ganado', JSON.stringify(vacunaciones));
+                renderTabla();
+                renderProximasVacunas();
+                actualizarStats();
+            }
+        }
+
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            renderTabla(e.target.value);
+        });
+
+        renderTabla();
+        renderProximasVacunas();
+        actualizarStats();
+    </script>
+</body>
+</html>

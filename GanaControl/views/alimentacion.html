@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alimentación - GanaControl</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/jpeg" href="img/logo.jpeg">
+</head>
+<body class="relative min-h-screen">
+
+    <!-- Fondo -->
+    <div class="fixed inset-0 z-[-10]">
+        <img src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=1600" 
+             alt="Fondo" 
+             class="w-full h-full object-cover filter brightness-75">
+        <div class="absolute inset-0 bg-gradient-to-br from-green-900/70 to-blue-900/70"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white/95 backdrop-blur-sm shadow-lg">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="img/logo.jpeg" alt="Logo" class="h-12 w-12 rounded-full border-2 border-green-600">
+                <div>
+                    <h1 class="text-2xl font-bold text-green-700">Control de Alimentación</h1>
+                    <p class="text-xs text-gray-600">Gestión Nutricional del Ganado</p>
+                </div>
+            </div>
+            <button onclick="location.href='dashboard.html'" 
+                class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition shadow-lg">
+                ← Volver
+            </button>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Formulario -->
+            <div class="lg:col-span-1">
+                <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6">
+                    <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-green-200">
+                        <div class="p-3 bg-green-100 rounded-full">
+                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12A9 9 0 113 12a9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-800">Registrar Alimentación</h2>
+                    </div>
+
+                    <div id="alert" class="hidden mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                        ✓ Alimentación registrada correctamente
+                    </div>
+
+                    <form id="formAlimentacion" class="space-y-4">
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Animal *</label>
+                            <select id="animalId" required
+                                class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                                <option value="">Seleccione...</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Tipo de Alimento *</label>
+                            <select id="tipoAlimento" required
+                                class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                                <option value="">Seleccione...</option>
+                                <option>Concentrado</option>
+                                <option>Forraje</option>
+                                <option>Suplemento Mineral</option>
+                                <option>Sal Proteína</option>
+                                <option>Mezcla Especial</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Cantidad (kg) *</label>
+                            <input type="number" id="cantidadKg" min="0" step="0.1" required
+                                class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200"
+                                placeholder="Ej: 2.5">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Fecha *</label>
+                            <input type="date" id="fecha" required
+                                class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Responsable *</label>
+                            <input type="text" id="responsable" required
+                                placeholder="Persona encargada"
+                                class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Observaciones</label>
+                            <textarea id="observaciones" rows="2"
+                                placeholder="Notas adicionales..."
+                                class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 resize-none"></textarea>
+                        </div>
+
+                        <button type="submit"
+                            class="w-full px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-lg hover:from-green-700 hover:to-green-800 transition shadow-lg">
+                            Registrar Alimentación
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tabla -->
+            <div class="lg:col-span-2">
+                <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6">
+                    <div class="flex items-center justify-between mb-6 pb-4 border-b-2 border-green-200">
+                        <div class="flex items-center gap-3">
+                            <div class="p-3 bg-blue-100 rounded-full">
+                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                          d="M9 5h6m4 0h.01M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                            <h2 class="text-xl font-bold text-gray-800">Registro de Alimentación</h2>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <input type="text" id="searchInput" placeholder="🔍 Buscar por código..."
+                            class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200">
+                    </div>
+
+                    <div class="overflow-x-auto rounded-lg border-2 border-gray-200 mb-4">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gradient-to-r from-green-600 to-blue-600 text-white">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-semibold">Animal</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Alimento</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Cantidad</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Fecha</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Responsable</th>
+                                    <th class="px-4 py-3 text-center font-semibold">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaBody" class="bg-white divide-y divide-gray-200"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Estadísticas -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-center">
+                <div class="text-3xl font-bold text-green-600" id="statTotal">0</div>
+                <div class="text-sm text-gray-600 mt-2">Registros Totales</div>
+            </div>
+
+            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-center">
+                <div class="text-3xl font-bold text-blue-600" id="statConcentrado">0</div>
+                <div class="text-sm text-gray-600 mt-2">Concentrado</div>
+            </div>
+
+            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-center">
+                <div class="text-3xl font-bold text-yellow-600" id="statForraje">0</div>
+                <div class="text-sm text-gray-600 mt-2">Forraje</div>
+            </div>
+
+            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-center">
+                <div class="text-3xl font-bold text-purple-600" id="statMineral">0</div>
+                <div class="text-sm text-gray-600 mt-2">Minerales</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const ganadoData = JSON.parse(localStorage.getItem('inventario_ganado')) || [];
+        const selectAnimal = document.getElementById('animalId');
+
+        ganadoData.filter(g => g.estado === 'Activo').forEach(g => {
+            const option = document.createElement('option');
+            option.value = g.id;
+            option.textContent = `${g.codigo} - ${g.nombre}`;
+            selectAnimal.appendChild(option);
+        });
+
+        document.getElementById('fecha').valueAsDate = new Date();
+
+        let alimentaciones = JSON.parse(localStorage.getItem('alimentacion_ganado')) || [];
+
+        function actualizarStats() {
+            document.getElementById('statTotal').textContent = alimentaciones.length;
+            document.getElementById('statConcentrado').textContent =
+                alimentaciones.filter(a => a.tipoAlimento === "Concentrado").length;
+            document.getElementById('statForraje').textContent =
+                alimentaciones.filter(a => a.tipoAlimento === "Forraje").length;
+            document.getElementById('statMineral').textContent =
+                alimentaciones.filter(a => a.tipoAlimento === "Suplemento Mineral").length;
+        }
+
+        function renderTabla(filtro = "") {
+            const tbody = document.getElementById('tablaBody');
+            tbody.innerHTML = "";
+
+            const filtradas = alimentaciones.filter(a => {
+                const animal = ganadoData.find(g => g.id == a.animalId);
+                return animal?.codigo.toLowerCase().includes(filtro.toLowerCase());
+            });
+
+            if (filtradas.length === 0) {
+                tbody.innerHTML =
+                    '<tr><td colspan="6" class="text-center py-8 text-gray-500">No hay registros de alimentación</td></tr>';
+                return;
+            }
+
+            filtradas.reverse().forEach(a => {
+                const animal = ganadoData.find(g => g.id == a.animalId);
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-green-50 transition";
+
+                tr.innerHTML = `
+                    <td class="px-4 py-3 font-bold text-green-700">${animal?.codigo || "N/A"}</td>
+                    <td class="px-4 py-3">${a.tipoAlimento}</td>
+                    <td class="px-4 py-3">${a.cantidadKg} kg</td>
+                    <td class="px-4 py-3">${a.fecha}</td>
+                    <td class="px-4 py-3">${a.responsable}</td>
+                    <td class="px-4 py-3 text-center">
+                        <button onclick="eliminarRegistro(${a.id})" 
+                            class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition text-xs">🗑️</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function eliminarRegistro(id) {
+            alimentaciones = alimentaciones.filter(a => a.id !== id);
+            localStorage.setItem("alimentacion_ganado", JSON.stringify(alimentaciones));
+            renderTabla();
+            actualizarStats();
+        }
+
+        document.getElementById('formAlimentacion').addEventListener('submit', e => {
+            e.preventDefault();
+
+            const registro = {
+                id: Date.now(),
+                animalId: document.getElementById('animalId').value,
+                tipoAlimento: document.getElementById('tipoAlimento').value,
+                cantidadKg: document.getElementById('cantidadKg').value,
+                fecha: document.getElementById('fecha').value,
+                responsable: document.getElementById('responsable').value,
+                observaciones: document.getElementById('observaciones').value
+            };
+
+            alimentaciones.push(registro);
+            localStorage.setItem("alimentacion_ganado", JSON.stringify(alimentaciones));
+
+            document.getElementById("alert").classList.remove("hidden");
+            setTimeout(() => document.getElementById("alert").classList.add("hidden"), 2000);
+
+            e.target.reset();
+            document.getElementById('fecha').valueAsDate = new Date();
+
+            renderTabla();
+            actualizarStats();
+        });
+
+        document.getElementById("searchInput").addEventListener("input", e => {
+            renderTabla(e.target.value);
+        });
+
+        renderTabla();
+        actualizarStats();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproducción - GanaControl</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/jpeg" href="img/logo.jpeg">
+</head>
+<body class="relative min-h-screen">
+    
+    <!-- Fondo -->
+    <div class="fixed inset-0 z-[-10]">
+        <img src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=1600" 
+             alt="Fondo" 
+             class="w-full h-full object-cover filter brightness-75">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-900/70 to-purple-900/70"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white/95 backdrop-blur-sm shadow-lg">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="img/logo.jpeg" alt="Logo" class="h-12 w-12 rounded-full border-2 border-blue-600">
+                <div>
+                    <h1 class="text-2xl font-bold text-blue-700">Control de Reproducción</h1>
+                    <p class="text-xs text-gray-600">Gestión Reproductiva</p>
+                </div>
+            </div>
+            <button onclick="location.href='dashboard.html'" 
+                    class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition shadow-lg">
+                ← Volver
+            </button>
+        </div>
+    </header>
+
+    <!-- Contenido -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Formulario -->
+            <div class="lg:col-span-1">
+                <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6">
+                    <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-blue-200">
+                        <div class="p-3 bg-blue-100 rounded-full">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-800">Registrar Evento</h2>
+                    </div>
+                    
+                    <div id="alert" class="hidden mb-4 p-4 bg-blue-100 border border-blue-400 text-blue-700 rounded-lg">
+                        ✓ Evento registrado exitosamente
+                    </div>
+                    
+                    <form id="formReproduccion" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Madre (Hembra) *</label>
+                            <select id="madreId" required 
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                                <option value="">Seleccione...</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Padre (Macho)</label>
+                            <select id="padreId" 
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                                <option value="">Seleccione...</option>
+                                <option value="">Sin padre registrado</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Tipo de Reproducción *</label>
+                            <select id="tipoReproduccion" required 
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                                <option value="Natural">Natural</option>
+                                <option value="Inseminación Artificial">Inseminación Artificial</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Fecha de Monta/Inseminación *</label>
+                            <input type="date" id="fechaMonta" required 
+                                   class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Fecha Parto Estimada</label>
+                            <input type="date" id="fechaPartoEstimada" 
+                                   class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                            <p class="text-xs text-gray-500 mt-1">Se calcula automáticamente (280 días)</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Estado *</label>
+                            <select id="estado" required 
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                                <option value="Gestante">Gestante</option>
+                                <option value="Parida">Parida</option>
+                                <option value="Fallido">Fallido</option>
+                                <option value="Abortado">Abortado</option>
+                            </select>
+                        </div>
+
+                        <div id="divParto" class="hidden space-y-4 border-t-2 border-blue-100 pt-4">
+                            <h3 class="font-semibold text-blue-700">Información del Parto</h3>
+                            
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Fecha Parto Real</label>
+                                <input type="date" id="fechaPartoReal" 
+                                       class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Tipo de Parto</label>
+                                <select id="tipoParto" 
+                                        class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                                    <option value="Natural">Natural</option>
+                                    <option value="Cesárea">Cesárea</option>
+                                    <option value="Asistido">Asistido</option>
+                                </select>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Nº Crías</label>
+                                    <input type="number" id="numeroCrias" value="1" min="1"
+                                           class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Crías Vivas</label>
+                                    <input type="number" id="criasVivas" value="1" min="0"
+                                           class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Veterinario</label>
+                                <input type="text" id="veterinario" 
+                                       placeholder="Dr. Juan Pérez"
+                                       class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Observaciones</label>
+                            <textarea id="observaciones" rows="2" 
+                                      placeholder="Notas adicionales sobre el evento reproductivo..."
+                                      class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 resize-none"></textarea>
+                        </div>
+
+                        <button type="submit" 
+                                class="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg hover:from-blue-700 hover:to-blue-800 transition shadow-lg">
+                            Registrar Evento Reproductivo
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tabla -->
+            <div class="lg:col-span-2">
+                <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6">
+                    <div class="flex items-center justify-between mb-6 pb-4 border-b-2 border-blue-200">
+                        <div class="flex items-center gap-3">
+                            <div class="p-3 bg-purple-100 rounded-full">
+                                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                </svg>
+                            </div>
+                            <h2 class="text-xl font-bold text-gray-800">Registro de Reproducción</h2>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <input type="text" id="searchInput" 
+                               placeholder="🔍 Buscar por código de madre..."
+                               class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                    </div>
+
+                    <div class="overflow-x-auto rounded-lg border-2 border-gray-200 mb-4">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-semibold">Madre</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Padre</th>
+                                    <th class="px-4 py-3 text-left font-semibold">F. Monta</th>
+                                    <th class="px-4 py-3 text-left font-semibold">F. Parto Est.</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Estado</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Crías</th>
+                                    <th class="px-4 py-3 text-center font-semibold">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaBody" class="bg-white divide-y divide-gray-200">
+                                <!-- Dinámico -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Próximos Partos -->
+                    <div class="bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4">
+                        <h3 class="font-bold text-yellow-800 mb-3 flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Próximos Partos (30 días)
+                        </h3>
+                        <div id="proximosPartos" class="space-y-2 text-sm">
+                            <!-- Dinámico -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estadísticas -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-center">
+                <div class="text-3xl font-bold text-blue-600" id="statGestantes">0</div>
+                <div class="text-sm text-gray-600 mt-2">Actualmente Gestantes</div>
+            </div>
+            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-center">
+                <div class="text-3xl font-bold text-green-600" id="statPartos">0</div>
+                <div class="text-sm text-gray-600 mt-2">Partos Este Año</div>
+            </div>
+            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-center">
+                <div class="text-3xl font-bold text-purple-600" id="statCrias">0</div>
+                <div class="text-sm text-gray-600 mt-2">Crías Nacidas</div>
+            </div>
+            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-center">
+                <div class="text-3xl font-bold text-yellow-600" id="statProximos">0</div>
+                <div class="text-sm text-gray-600 mt-2">Partos Próximos</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const ganadoData = JSON.parse(localStorage.getItem('inventario_ganado')) || [];
+        
+        const selectMadre = document.getElementById('madreId');
+        const selectPadre = document.getElementById('padreId');
+        
+        ganadoData.filter(g => g.estado === 'Activo' && g.sexo === 'Hembra').forEach(g => {
+            const option = document.createElement('option');
+            option.value = g.id;
+            option.textContent = `${g.codigo} - ${g.nombre}`;
+            selectMadre.appendChild(option);
+        });
+
+        ganadoData.filter(g => g.estado === 'Activo' && g.sexo === 'Macho').forEach(g => {
+            const option = document.createElement('option');
+            option.value = g.id;
+            option.textContent = `${g.codigo} - ${g.nombre}`;
+            selectPadre.appendChild(option);
+        });
+
+        document.getElementById('fechaMonta').valueAsDate = new Date();
+
+        document.getElementById('fechaMonta').addEventListener('change', function() {
+            const fechaMonta = new Date(this.value);
+            fechaMonta.setDate(fechaMonta.getDate() + 280);
+            document.getElementById('fechaPartoEstimada').valueAsDate = fechaMonta;
+        });
+
+        document.getElementById('estado').addEventListener('change', function() {
+            document.getElementById('divParto').classList.toggle('hidden', this.value !== 'Parida');
+        });
+
+        let reproducciones = JSON.parse(localStorage.getItem('reproducciones_ganado')) || [];
+
+        function actualizarStats() {
+            const gestantes = reproducciones.filter(r => r.estado === 'Gestante').length;
+            document.getElementById('statGestantes').textContent = gestantes;
+
+            const añoActual = new Date().getFullYear();
+            const partos = reproducciones.filter(r => {
+                if (r.estado !== 'Parida' || !r.fechaPartoReal) return false;
+                return new Date(r.fechaPartoReal).getFullYear() === añoActual;
+            }).length;
+            document.getElementById('statPartos').textContent = partos;
+
+            const totalCrias = reproducciones.reduce((sum, r) => sum + (parseInt(r.criasVivas) || 0), 0);
+            document.getElementById('statCrias').textContent = totalCrias;
+
+            const hoy = new Date();
+            const futuro = new Date();
+            futuro.setDate(futuro.getDate() + 30);
+            const proximos = reproducciones.filter(r => {
+                if (!r.fechaPartoEstimada || r.estado !== 'Gestante') return false;
+                const fecha = new Date(r.fechaPartoEstimada);
+                return fecha >= hoy && fecha <= futuro;
+            }).length;
+            document.getElementById('statProximos').textContent = proximos;
+        }
+
+        function renderProximosPartos() {
+            const div = document.getElementById('proximosPartos');
+            const hoy = new Date();
+            const futuro = new Date();
+            futuro.setDate(futuro.getDate() + 30);
+            
+            const proximos = reproducciones
+                .filter(r => {
+                    if (!r.fechaPartoEstimada || r.estado !== 'Gestante') return false;
+                    const fecha = new Date(r.fechaPartoEstimada);
+                    return fecha >= hoy && fecha <= futuro;
+                })
+                .sort((a, b) => new Date(a.fechaPartoEstimada) - new Date(b.fechaPartoEstimada));
+
+            if (proximos.length === 0) {
+                div.innerHTML = '<p class="text-gray-500">No hay partos programados en los próximos 30 días</p>';
+                return;
+            }
+
+            div.innerHTML = proximos.map(r => {
+                const madre = ganadoData.find(g => g.id == r.madreId);
+                const dias = Math.ceil((new Date(r.fechaPartoEstimada) - hoy) / (1000 * 60 * 60 * 24));
+                const urgente = dias <= 7;
+                
+                return `
+                    <div class="flex justify-between items-center p-2 bg-white rounded border ${urgente ? 'border-red-300' : 'border-yellow-200'}">
+                        <div>
+                            <span class="font-semibold">${madre?.codigo} - ${madre?.nombre}</span>
+                            <span class="text-xs text-gray-500 ml-2">${r.tipoReproduccion}</span>
+                        </div>
+                        <span class="text-xs ${urgente ? 'text-red-600 font-bold' : 'text-gray-600'}">
+                            ${r.fechaPartoEstimada} (${dias}d)
+                        </span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderTabla(filtro = '') {
+            const tbody = document.getElementById('tablaBody');
+            tbody.innerHTML = '';
+
+            const reprosFiltradas = reproducciones.filter(r => {
+                const madre = ganadoData.find(g => g.id == r.madreId);
+                return madre?.codigo.toLowerCase().includes(filtro.toLowerCase()) ||
+                       madre?.nombre.toLowerCase().includes(filtro.toLowerCase());
+            });
+
+            if (reprosFiltradas.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="text-center py-8 text-gray-500">No hay eventos reproductivos registrados</td></tr>';
+                return;
+            }
+
+            reprosFiltradas.reverse().forEach(r => {
+                const madre = ganadoData.find(g => g.id == r.madreId);
+                const padre = ganadoData.find(g => g.id == r.padreId);
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-blue-50 transition';
+                
+                const estadoClass = {
+                    'Gestante': 'bg-yellow-100 text-yellow-800',
+                    'Parida': 'bg-green-100 text-green-800',
+                    'Fallido': 'bg-red-100 text-red-800',
+                    'Abortado': 'bg-orange-100 text-orange-800'
+                }[r.estado] || 'bg-gray-100 text-gray-800';
+
+                const hoy = new Date();
+                const fechaParto = r.fechaPartoEstimada ? new Date(r.fechaPartoEstimada) : null;
+                const diasRestantes = fechaParto ? Math.ceil((fechaParto - hoy) / (1000 * 60 * 60 * 24)) : null;
+                const partoProximo = diasRestantes !== null && diasRestantes <= 7 && diasRestantes >= 0;
+
+                tr.innerHTML = `
+                    <td class="px-4 py-3"><span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-md font-bold">${madre?.codigo || 'N/A'}</span></td>
+                    <td class="px-4 py-3 text-xs">${padre?.codigo || 'Sin padre'}</td>
+                    <td class="px-4 py-3">${r.fechaMonta}</td>
+                    <td class="px-4 py-3 ${partoProximo ? 'text-red-600 font-bold' : ''}">${r.fechaPartoEstimada || '-'}</td>
+                    <td class="px-4 py-3"><span class="px-2 py-1 rounded-md text-xs font-semibold ${estadoClass}">${r.estado}</span></td>
+                    <td class="px-4 py-3 text-center">${r.criasVivas || '-'}${r.numeroCrias ? '/' + r.numeroCrias : ''}</td>
+                    <td class="px-4 py-3 text-center">
+                        <button onclick="eliminarRepro(${r.id})" class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition text-xs">🗑️</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        document.getElementById('formReproduccion').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const nuevaRepro = {
+                id: Date.now(),
+                madreId: document.getElementById('madreId').value,
+                padreId: document.getElementById('padreId').value || null,
+                tipoReproduccion: document.getElementById('tipoReproduccion').value,
+                fechaMonta: document.getElementById('fechaMonta').value,
+                fechaPartoEstimada: document.getElementById('fechaPartoEstimada').value,
+                estado: document.getElementById('estado').value,
+                fechaPartoReal: document.getElementById('fechaPartoReal').value || null,
+                tipoParto: document.getElementById('tipoParto').value,
+                numeroCrias: document.getElementById('numeroCrias').value || null,
+                criasVivas: document.getElementById('criasVivas').value || null,
+                veterinario: document.getElementById('veterinario').value || null,
+                observaciones: document.getElementById('observaciones').value
+            };
+
+            reproducciones.push(nuevaRepro);
+            localStorage.setItem('reproducciones_ganado', JSON.stringify(reproducciones));
+
+            const alert = document.getElementById('alert');
+            alert.classList.remove('hidden');
+            setTimeout(() => alert.classList.add('hidden'), 3000);
+
+            this.reset();
+            document.getElementById('fechaMonta').valueAsDate = new Date();
+            document.getElementById('divParto').classList.add('hidden');
+
+            renderTabla();
+            renderProximosPartos();
+            actualizarStats();
+        });
+
+        function eliminarRepro(id) {
+            if (confirm('¿Está seguro de eliminar este registro reproductivo?')) {
+                reproducciones = reproducciones.filter(r => r.id !== id);
+                localStorage.setItem('reproducciones_ganado', JSON.stringify(reproducciones));
+                renderTabla();
+                renderProximosPartos();
+                actualizarStats();
+            }
+        }
+
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            renderTabla(e.target.value);
+        });
+
+        renderTabla();
+        renderProximosPartos();
+        actualizarStats();
+    </script>
+</body>
+</html>

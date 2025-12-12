@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ventas - GanaControl</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/jpeg" href="img/logo.jpeg">
+</head>
+<body class="relative min-h-screen">
+    
+    <!-- Fondo -->
+    <div class="fixed inset-0 z-[-10]">
+        <img src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?w=1600" 
+             alt="Fondo" 
+             class="w-full h-full object-cover filter brightness-75">
+        <div class="absolute inset-0 bg-gradient-to-br from-green-900/70 to-blue-900/70"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white/95 backdrop-blur-sm shadow-lg">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="img/logo.jpeg" alt="Logo" class="h-12 w-12 rounded-full border-2 border-green-600">
+                <div>
+                    <h1 class="text-2xl font-bold text-green-700">Ventas y Comercialización</h1>
+                    <p class="text-xs text-gray-600">Registro de Transacciones</p>
+                </div>
+            </div>
+            <button onclick="location.href='dashboard.html'" 
+                    class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition shadow-lg">
+                ← Volver al Dashboard
+            </button>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Formulario de Registro -->
+            <div class="lg:col-span-1">
+                <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6">
+                    <div class="flex items-center gap-3 mb-6 pb-4 border-b-2 border-green-200">
+                        <div class="p-3 bg-green-100 rounded-full">
+                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-bold text-gray-800">Registrar Venta</h2>
+                    </div>
+                    
+                    <div id="alert" class="hidden mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                        ✓ Venta registrada exitosamente
+                    </div>
+                    
+                    <form id="formVenta" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Tipo de Venta *</label>
+                            <select id="tipoVenta" required 
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition">
+                                <option value="">Seleccione...</option>
+                                <option value="Ganado">🐄 Ganado</option>
+                                <option value="Producción">🥛 Producción</option>
+                                <option value="Mixta">📦 Mixta</option>
+                            </select>
+                        </div>
+
+                        <div id="divGanado" class="hidden">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Código del Ganado</label>
+                            <select id="ganadoId" 
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition">
+                                <option value="">Seleccione...</option>
+                            </select>
+                        </div>
+
+                        <div id="divProduccion" class="hidden">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Tipo de Producto</label>
+                            <select id="tipoProducto" 
+                                    class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition">
+                                <option value="">Seleccione...</option>
+                                <option value="Leche">🥛 Leche</option>
+                                <option value="Queso">🧀 Queso</option>
+                                <option value="Yogurt">🥤 Yogurt</option>
+                                <option value="Crema">🍶 Crema</option>
+                            </select>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Nombre del Cliente *</label>
+                                <input type="text" id="clienteNombre" required 
+                                       placeholder="Juan Pérez"
+                                       class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Teléfono</label>
+                                <input type="tel" id="clienteTelefono" 
+                                       placeholder="300-123-4567"
+                                       class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Cantidad *</label>
+                                    <input type="number" id="cantidad" step="0.01" required 
+                                           placeholder="10"
+                                           class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition">
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2">Precio Unit. *</label>
+                                    <input type="number" id="precioUnitario" step="0.01" required 
+                                           placeholder="5000"
+                                           class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Precio Total</label>
+                                <input type="number" id="precioTotal" readonly 
+                                       class="w-full px-4 py-2 bg-gray-100 border-2 border-gray-300 rounded-lg font-bold text-green-600 text-lg">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Fecha de Venta *</label>
+                                <input type="date" id="fechaVenta" required 
+                                       class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Método de Pago *</label>
+                                <select id="metodoPago" required 
+                                        class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition">
+                                    <option value="Efectivo">💵 Efectivo</option>
+                                    <option value="Transferencia">🏦 Transferencia</option>
+                                    <option value="Cheque">📝 Cheque</option>
+                                    <option value="Tarjeta">💳 Tarjeta</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Observaciones</label>
+                                <textarea id="observaciones" rows="2" 
+                                          placeholder="Notas adicionales..."
+                                          class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition resize-none"></textarea>
+                            </div>
+                        </div>
+
+                        <button type="submit" 
+                                class="w-full px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-lg hover:from-green-700 hover:to-green-800 transition shadow-lg transform hover:scale-105">
+                            💰 Registrar Venta
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Tabla de Reportes -->
+            <div class="lg:col-span-2">
+                <div class="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-6">
+                    <div class="flex items-center justify-between mb-6 pb-4 border-b-2 border-green-200">
+                        <div class="flex items-center gap-3">
+                            <div class="p-3 bg-blue-100 rounded-full">
+                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                </svg>
+                            </div>
+                            <h2 class="text-xl font-bold text-gray-800">Reporte de Ventas</h2>
+                        </div>
+                    </div>
+                    
+                    <!-- Búsqueda -->
+                    <div class="mb-4">
+                        <input type="text" id="searchInput" 
+                               placeholder="🔍 Buscar por cliente o tipo..."
+                               class="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 transition">
+                    </div>
+
+                    <!-- Tabla -->
+                    <div class="overflow-x-auto rounded-lg border-2 border-gray-200">
+                        <table class="w-full text-sm">
+                            <thead class="bg-gradient-to-r from-green-600 to-green-700 text-white">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-semibold">ID</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Cliente</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Tipo</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Cant.</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Total</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Fecha</th>
+                                    <th class="px-4 py-3 text-left font-semibold">Pago</th>
+                                    <th class="px-4 py-3 text-center font-semibold">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaBody" class="bg-white divide-y divide-gray-200">
+                                <!-- Se llena dinámicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Estadísticas -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-center">
+                <div class="text-3xl font-bold text-blue-600" id="statTotal">$0</div>
+                <div class="text-sm text-gray-600 mt-2">Total Ventas</div>
+            </div>
+            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-center">
+                <div class="text-3xl font-bold text-green-600" id="statMes">$0</div>
+                <div class="text-sm text-gray-600 mt-2">Este Mes</div>
+            </div>
+            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-center">
+                <div class="text-3xl font-bold text-purple-600" id="statHoy">$0</div>
+                <div class="text-sm text-gray-600 mt-2">Hoy</div>
+            </div>
+            <div class="bg-white/95 rounded-xl p-6 shadow-lg text-center">
+                <div class="text-3xl font-bold text-orange-600" id="statPromedio">$0</div>
+                <div class="text-sm text-gray-600 mt-2">Promedio</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const ganadoData = JSON.parse(localStorage.getItem('inventario_ganado')) || [];
+        
+        // Cargar ganado en select
+        const selectGanado = document.getElementById('ganadoId');
+        ganadoData.filter(g => g.estado === 'Activo').forEach(g => {
+            const option = document.createElement('option');
+            option.value = g.id;
+            option.textContent = `${g.codigo} - ${g.nombre}`;
+            selectGanado.appendChild(option);
+        });
+
+        // Mostrar/ocultar campos según tipo de venta
+        document.getElementById('tipoVenta').addEventListener('change', function() {
+            const tipo = this.value;
+            document.getElementById('divGanado').classList.toggle('hidden', tipo !== 'Ganado' && tipo !== 'Mixta');
+            document.getElementById('divProduccion').classList.toggle('hidden', tipo !== 'Producción' && tipo !== 'Mixta');
+        });
+
+        // Calcular total automáticamente
+        function calcularTotal() {
+            const cantidad = parseFloat(document.getElementById('cantidad').value) || 0;
+            const precio = parseFloat(document.getElementById('precioUnitario').value) || 0;
+            document.getElementById('precioTotal').value = (cantidad * precio).toFixed(2);
+        }
+
+        document.getElementById('cantidad').addEventListener('input', calcularTotal);
+        document.getElementById('precioUnitario').addEventListener('input', calcularTotal);
+
+        // Establecer fecha actual
+        document.getElementById('fechaVenta').valueAsDate = new Date();
+
+        // Base de datos local
+        let ventas = JSON.parse(localStorage.getItem('ventas_ganado')) || [];
+
+        // Actualizar estadísticas
+        function actualizarStats() {
+            const total = ventas.reduce((sum, v) => sum + parseFloat(v.precioTotal), 0);
+            document.getElementById('statTotal').textContent = `$${total.toLocaleString()}`;
+
+            const hoy = new Date().toISOString().split('T')[0];
+            const totalHoy = ventas.filter(v => v.fecha === hoy).reduce((sum, v) => sum + parseFloat(v.precioTotal), 0);
+            document.getElementById('statHoy').textContent = `$${totalHoy.toLocaleString()}`;
+
+            const mesActual = new Date().getMonth();
+            const añoActual = new Date().getFullYear();
+            const totalMes = ventas.filter(v => {
+                const fecha = new Date(v.fecha);
+                return fecha.getMonth() === mesActual && fecha.getFullYear() === añoActual;
+            }).reduce((sum, v) => sum + parseFloat(v.precioTotal), 0);
+            document.getElementById('statMes').textContent = `$${totalMes.toLocaleString()}`;
+
+            const promedio = ventas.length > 0 ? total / ventas.length : 0;
+            document.getElementById('statPromedio').textContent = `$${promedio.toLocaleString()}`;
+        }
+
+        // Renderizar tabla
+        function renderTabla(filtro = '') {
+            const tbody = document.getElementById('tablaBody');
+            tbody.innerHTML = '';
+
+            const ventasFiltradas = ventas.filter(v => 
+                v.clienteNombre.toLowerCase().includes(filtro.toLowerCase()) ||
+                v.tipoVenta.toLowerCase().includes(filtro.toLowerCase())
+            );
+
+            if (ventasFiltradas.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="text-center py-8 text-gray-500">No hay ventas registradas</td></tr>';
+                return;
+            }
+
+            ventasFiltradas.reverse().forEach((v) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-green-50 transition';
+                tr.innerHTML = `
+                    <td class="px-4 py-3 font-semibold text-gray-700">${v.id}</td>
+                    <td class="px-4 py-3">${v.clienteNombre}</td>
+                    <td class="px-4 py-3"><span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-md text-xs font-semibold">${v.tipoVenta}</span></td>
+                    <td class="px-4 py-3">${v.cantidad}</td>
+                    <td class="px-4 py-3 font-bold text-green-600">$${parseFloat(v.precioTotal).toLocaleString()}</td>
+                    <td class="px-4 py-3">${v.fecha}</td>
+                    <td class="px-4 py-3 text-xs">${v.metodoPago}</td>
+                    <td class="px-4 py-3 text-center">
+                        <button onclick="verDetalle(${v.id})" class="px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition text-xs mr-1">👁️</button>
+                        <button onclick="eliminarVenta(${v.id})" class="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600 transition text-xs">🗑️</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Registrar venta
+        document.getElementById('formVenta').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const nuevaVenta = {
+                id: Date.now(),
+                tipoVenta: document.getElementById('tipoVenta').value,
+                ganadoId: document.getElementById('ganadoId').value,
+                tipoProducto: document.getElementById('tipoProducto').value,
+                clienteNombre: document.getElementById('clienteNombre').value,
+                clienteTelefono: document.getElementById('clienteTelefono').value,
+                cantidad: document.getElementById('cantidad').value,
+                precioUnitario: document.getElementById('precioUnitario').value,
+                precioTotal: document.getElementById('precioTotal').value,
+                fecha: document.getElementById('fechaVenta').value,
+                metodoPago: document.getElementById('metodoPago').value,
+                observaciones: document.getElementById('observaciones').value
+            };
+
+            ventas.push(nuevaVenta);
+            localStorage.setItem('ventas_ganado', JSON.stringify(ventas));
+
+            // Mostrar alerta
+            const alert = document.getElementById('alert');
+            alert.classList.remove('hidden');
+            setTimeout(() => alert.classList.add('hidden'), 3000);
+
+            // Limpiar formulario
+            this.reset();
+            document.getElementById('fechaVenta').valueAsDate = new Date();
+            document.getElementById('divGanado').classList.add('hidden');
+            document.getElementById('divProduccion').classList.add('hidden');
+
+            renderTabla();
+            actualizarStats();
+        });
+
+        // Ver detalle
+        function verDetalle(id) {
+            const venta = ventas.find(v => v.id === id);
+            if (!venta) return;
+            alert(`Detalle de Venta #${venta.id}\n\nCliente: ${venta.clienteNombre}\nTeléfono: ${venta.clienteTelefono || 'N/A'}\nTipo: ${venta.tipoVenta}\nCantidad: ${venta.cantidad}\nPrecio: $${parseFloat(venta.precioTotal).toLocaleString()}\nFecha: ${venta.fecha}\nMétodo: ${venta.metodoPago}\nObservaciones: ${venta.observaciones || 'N/A'}`);
+        }
+
+        // Eliminar venta
+        function eliminarVenta(id) {
+            if (confirm('¿Está seguro de eliminar esta venta?')) {
+                ventas = ventas.filter(v => v.id !== id);
+                localStorage.setItem('ventas_ganado', JSON.stringify(ventas));
+                renderTabla();
+                actualizarStats();
+            }
+        }
+
+        // Búsqueda
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            renderTabla(e.target.value);
+        });
+
+        // Inicializar
+        renderTabla();
+        actualizarStats();
+    </script>
+</body>
+</html>
